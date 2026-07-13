@@ -1,0 +1,12 @@
+.codex-ssh/
+.agents/
+.DS_Store
+Thumbs.db
+
+# Local concept and generation files
+landing-preview*.png
+kling-*.png
+!kling-black-folder-start.png
+case-prestige.png
+folder-logo.jpg
+
