@@ -72,24 +72,42 @@
         <p>Не украшение ради украшения, а способ направить внимание клиента к главному.</p>
       </div>
 
-      <div class="motion-story wrap">
-        <div class="motion-copy reveal">
-          <span>Вопрос / 01</span>
-          <h3>Как думаете,<br>такая анимация<br><em>цепляет клиента?</em></h3>
-          <p>Конечно, цепляет. Движение помогает остановить взгляд, объяснить идею и мягко привести человека к заявке.</p>
-          <a href="#about">Что можно сделать <span>↓</span></a>
+      <div class="motion-story wrap" data-motion-story>
+        <div class="motion-steps">
+          <article class="motion-step is-active" data-motion-step data-kicker="Один экран / одна идея" data-line-one="Ваш продукт." data-line-two="Его заметили." data-button="Смотреть дальше">
+            <span>Вопрос / 01</span>
+            <h3>Как думаете,<br>такая анимация<br><em>цепляет клиента?</em></h3>
+            <p>Конечно, цепляет. Движение останавливает взгляд и даёт человеку причину не закрывать страницу.</p>
+          </article>
+          <article class="motion-step" data-motion-step data-kicker="Первый контакт / 0,3 секунды" data-line-one="Остановить." data-line-two="Не перегрузить." data-button="Показать главное">
+            <span>Внимание / 02</span>
+            <h3>Сначала —<br><em>остановить.</em></h3>
+            <p>Не кричать всеми элементами сразу, а одним точным движением показать, куда смотреть и что здесь важно.</p>
+          </article>
+          <article class="motion-step" data-motion-step data-kicker="Путь клиента / глубже" data-line-one="Вовлечь." data-line-two="Дать почувствовать." data-button="Хочу так же">
+            <span>Интерес / 03</span>
+            <h3>Затем —<br><em>провести глубже.</em></h3>
+            <p>Каждый следующий скролл раскрывает новую мысль. Человек не читает длинный рассказ — он проживает его.</p>
+          </article>
+          <article class="motion-step" data-motion-step data-kicker="Финальный шаг / действие" data-line-one="Интерес есть." data-line-two="Пора обсудить." data-button="Оставить заявку">
+            <span>Действие / 04</span>
+            <h3>И только потом —<br><em>к заявке.</em></h3>
+            <p>Когда ценность уже понятна, предложение связаться воспринимается не как реклама, а как естественный следующий шаг.</p>
+            <a href="#contact">Перейти к заявке <span>↓</span></a>
+          </article>
         </div>
 
-        <div class="motion-demo reveal" data-motion-demo aria-label="Пример анимации интерфейса сайта">
+        <div class="motion-visual">
+          <div class="motion-demo reveal" data-motion-demo data-step="0" aria-label="Пример анимации интерфейса сайта">
           <div class="demo-browser">
             <div class="demo-bar">
               <span></span><span></span><span></span>
               <i>your-site.ru</i>
             </div>
             <div class="demo-canvas">
-              <span class="demo-kicker">Новый продукт / 2026</span>
-              <p class="demo-headline">Ваш продукт.<br><em>Его заметили.</em></p>
-              <button type="button" tabindex="-1">Оставить заявку <i>↗</i></button>
+              <span class="demo-kicker" data-demo-kicker>Один экран / одна идея</span>
+              <p class="demo-headline"><span data-demo-line-one>Ваш продукт.</span><br><em data-demo-line-two>Его заметили.</em></p>
+              <button type="button" tabindex="-1"><span data-demo-button>Смотреть дальше</span><i>↗</i></button>
               <div class="demo-orbit orbit-one" aria-hidden="true"></div>
               <div class="demo-orbit orbit-two" aria-hidden="true"></div>
               <div class="demo-card card-one" aria-hidden="true"><span>01</span><b>Внимание</b></div>
@@ -98,6 +116,7 @@
             </div>
           </div>
           <p class="motion-caption"><span>Движение включается, когда блок появляется на экране</span><b>Смотрите внимательно</b></p>
+          </div>
         </div>
       </div>
     </section>
@@ -146,11 +165,18 @@
             <p>Напишите коротко о задаче — отвечу лично и предложу следующий шаг.</p>
             <a class="telegram-app-link" href="tg://resolve?domain=kudaevgram">Открыть сразу в приложении ↗</a>
           </div>
-          <a class="telegram-cta" href="https://telegram.me/kudaevgram" target="_blank" rel="noopener noreferrer">
-            <strong>Написать в Telegram</strong>
-            <span>@kudaevgram</span>
-            <i aria-hidden="true">↗</i>
-          </a>
+          <div class="contact-action-stack">
+            <div class="brief-prompts" aria-label="Что написать в сообщении">
+              <span><i>01</i> Что нужно сделать?</span>
+              <span><i>02</i> Когда хотите запустить?</span>
+              <span><i>03</i> Какой ориентир по бюджету?</span>
+            </div>
+            <a class="telegram-cta" href="https://telegram.me/kudaevgram" target="_blank" rel="noopener noreferrer">
+              <strong>Написать в Telegram</strong>
+              <span>@kudaevgram</span>
+              <i aria-hidden="true">↗</i>
+            </a>
+          </div>
         </div>
 
         <div class="operator-note reveal">

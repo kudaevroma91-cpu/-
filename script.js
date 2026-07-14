@@ -114,10 +114,71 @@ document.querySelectorAll('.reveal').forEach((element) => observer.observe(eleme
 
 const motionDemo = document.querySelector('[data-motion-demo]');
 if (motionDemo) {
+  const motionStory = document.querySelector('[data-motion-story]');
+  const motionSteps = [...document.querySelectorAll('[data-motion-step]')];
+  const demoKicker = motionDemo.querySelector('[data-demo-kicker]');
+  const demoLineOne = motionDemo.querySelector('[data-demo-line-one]');
+  const demoLineTwo = motionDemo.querySelector('[data-demo-line-two]');
+  const demoButton = motionDemo.querySelector('[data-demo-button]');
+  let activeMotionStep = 0;
+  let motionTicking = false;
+  let motionSwapTimer = 0;
+
   const motionObserver = new IntersectionObserver(([entry]) => {
     motionDemo.classList.toggle('is-playing', entry.isIntersecting && !reducedMotion);
   }, { threshold: .28 });
   motionObserver.observe(motionDemo);
+
+  const activateMotionStep = (index) => {
+    if (index === activeMotionStep) return;
+    activeMotionStep = index;
+    motionSteps.forEach((step, stepIndex) => step.classList.toggle('is-active', stepIndex === index));
+    const step = motionSteps[index];
+    motionDemo.dataset.step = String(index);
+    motionDemo.classList.add('is-switching');
+    clearTimeout(motionSwapTimer);
+    motionSwapTimer = setTimeout(() => {
+      demoKicker.textContent = step.dataset.kicker;
+      demoLineOne.textContent = step.dataset.lineOne;
+      demoLineTwo.textContent = step.dataset.lineTwo;
+      demoButton.textContent = step.dataset.button;
+      motionDemo.classList.remove('is-switching');
+    }, reducedMotion ? 0 : 170);
+  };
+
+  const updateMotionStory = () => {
+    motionTicking = false;
+    if (!motionStory || innerWidth <= 900) return;
+
+    const storyRect = motionStory.getBoundingClientRect();
+    const available = Math.max(1, motionStory.offsetHeight - innerHeight);
+    const progress = clamp(-storyRect.top / available);
+    motionDemo.style.setProperty('--depth-scale', lerp(.92, 1.035, progress).toFixed(4));
+    motionDemo.style.setProperty('--depth-y', `${lerp(24, -10, progress).toFixed(1)}px`);
+
+    const anchor = innerHeight * .48;
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+    motionSteps.forEach((step, index) => {
+      const rect = step.getBoundingClientRect();
+      const distance = Math.abs(rect.top + rect.height * .48 - anchor);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+    activateMotionStep(closestIndex);
+  };
+
+  const requestMotionUpdate = () => {
+    if (motionTicking) return;
+    motionTicking = true;
+    requestAnimationFrame(updateMotionStory);
+  };
+
+  addEventListener('scroll', requestMotionUpdate, { passive: true });
+  addEventListener('resize', requestMotionUpdate);
+  updateMotionStory();
 }
 
 document.querySelector('[data-to-top]').addEventListener('click', () => {
