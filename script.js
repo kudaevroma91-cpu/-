@@ -112,6 +112,29 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
 
+const motionHeading = document.querySelector('[data-motion-heading]');
+if (motionHeading && !reducedMotion) {
+  let headingTicking = false;
+
+  const updateMotionHeading = () => {
+    headingTicking = false;
+    const rect = motionHeading.getBoundingClientRect();
+    const progress = clamp((innerHeight - rect.top) / (innerHeight + rect.height));
+    motionHeading.style.setProperty('--motion-image-y', `${lerp(28, -28, progress).toFixed(1)}px`);
+    motionHeading.style.setProperty('--motion-image-scale', lerp(1.08, 1.01, progress).toFixed(4));
+  };
+
+  const requestHeadingUpdate = () => {
+    if (headingTicking) return;
+    headingTicking = true;
+    requestAnimationFrame(updateMotionHeading);
+  };
+
+  addEventListener('scroll', requestHeadingUpdate, { passive: true });
+  addEventListener('resize', requestHeadingUpdate);
+  updateMotionHeading();
+}
+
 const motionDemo = document.querySelector('[data-motion-demo]');
 if (motionDemo) {
   const motionStory = document.querySelector('[data-motion-story]');
