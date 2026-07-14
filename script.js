@@ -116,16 +116,23 @@ document.querySelector('[data-to-top]').addEventListener('click', () => {
   scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
 });
 
-const briefForm = document.querySelector('[data-brief-form]');
-const formSuccess = document.querySelector('[data-form-success]');
+const cookieNotice = document.querySelector('[data-cookie-notice]');
+const cookieAccept = document.querySelector('[data-cookie-accept]');
+let cookieNoticeAccepted = false;
 
-briefForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  const submitButton = briefForm.querySelector('.form-submit');
-  submitButton.disabled = true;
-  submitButton.querySelector('span').textContent = 'Форма заполнена';
-  formSuccess.hidden = false;
-  formSuccess.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'nearest' });
+try {
+  cookieNoticeAccepted = localStorage.getItem('cookie-notice-accepted-v1') === 'yes';
+} catch (_) { /* The site still works when storage is disabled. */ }
+
+if (cookieNotice && !cookieNoticeAccepted) {
+  cookieNotice.hidden = false;
+  requestAnimationFrame(() => cookieNotice.classList.add('is-visible'));
+}
+
+cookieAccept?.addEventListener('click', () => {
+  cookieNotice.classList.remove('is-visible');
+  try { localStorage.setItem('cookie-notice-accepted-v1', 'yes'); } catch (_) { /* Storage may be disabled. */ }
+  setTimeout(() => { cookieNotice.hidden = true; }, reducedMotion ? 0 : 350);
 });
 
 const contact = document.querySelector('.contact');

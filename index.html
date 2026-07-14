@@ -6,9 +6,6 @@
   <meta name="description" content="Портфолио веб-дизайнера и разработчика. Лендинги и сайты с характером.">
   <meta name="theme-color" content="#eeede7">
   <title>Папка для сайтов — портфолио</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -156,53 +153,40 @@
         <p class="eyebrow reveal"><span></span> Свободен для новых проектов</p>
         <h2 class="reveal">Расскажите<br><em>о своём проекте.</em></h2>
 
-        <form class="brief-form reveal" data-brief-form>
-          <div class="form-field">
-            <label for="name">Ваше имя</label>
-            <input id="name" name="name" type="text" placeholder="Как к вам обращаться?" autocomplete="name" required>
+        <div class="contact-panel reveal">
+          <div class="contact-copy">
+            <span>Прямая связь</span>
+            <p>Напишите коротко о задаче — отвечу лично и предложу следующий шаг.</p>
           </div>
-          <div class="form-field">
-            <label for="contact-field">Как с вами связаться</label>
-            <input id="contact-field" name="contact" type="text" placeholder="Telegram, телефон или почта" autocomplete="email" required>
-          </div>
-          <div class="form-field">
-            <label for="project-type">Что нужно сделать</label>
-            <select id="project-type" name="projectType" required>
-              <option value="" selected disabled>Выберите формат</option>
-              <option value="landing">Лендинг</option>
-              <option value="portfolio">Сайт-портфолио</option>
-              <option value="turnkey">Сайт под ключ</option>
-              <option value="other">Другое</option>
-            </select>
-          </div>
-          <div class="form-field form-field-wide">
-            <label for="message">Коротко о задаче</label>
-            <textarea id="message" name="message" rows="3" placeholder="Что хотите запустить и какой результат нужен?" required></textarea>
-          </div>
-          <div class="form-actions">
-            <p>Нажимая кнопку, вы соглашаетесь на обработку данных для связи по заявке.</p>
-            <button class="form-submit" type="submit">
-              <span>Отправить заявку</span>
-              <i>↗</i>
-            </button>
-          </div>
-          <div class="form-success" data-form-success hidden>
-            <span>Готово</span>
-            <p>Данные заполнены. Форма готова к подключению вашего Telegram или почты.</p>
-          </div>
-        </form>
+          <a class="telegram-cta" href="https://t.me/kudaevgram" target="_blank" rel="noopener noreferrer">
+            <span>Написать в Telegram</span>
+            <strong>@kudaevgram</strong>
+            <i aria-hidden="true">↗</i>
+          </a>
+        </div>
+
+        <div class="operator-note reveal">
+          <span>Кудаев Роман Александрович · самозанятый</span>
+          <a href="mailto:kudaevroma91@gmail.com">kudaevroma91@gmail.com</a>
+        </div>
 
         <footer class="footer reveal">
           <span>© 2026</span>
           <div>
-            <a href="#">Telegram</a>
-            <a href="#">Behance</a>
+            <a href="https://t.me/kudaevgram" target="_blank" rel="noopener noreferrer">Telegram</a>
+            <a href="privacy.html">Конфиденциальность</a>
+            <a href="cookies.html">Cookies</a>
           </div>
           <button type="button" data-to-top>Наверх ↑</button>
         </footer>
       </div>
     </section>
   </main>
+
+  <aside class="cookie-notice" data-cookie-notice hidden aria-label="Уведомление о файлах cookies">
+    <p>На сайте нет аналитических и рекламных cookies. Сохраняется только ваш выбор о закрытии этого уведомления. <a href="cookies.html">Подробнее</a></p>
+    <button type="button" data-cookie-accept>Понятно</button>
+  </aside>
 
   <script src="script.js"></script>
 </body>
