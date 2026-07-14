@@ -85,7 +85,7 @@ const createVideoScrubber = (video, maxDuration = Infinity) => {
 };
 
 const scrubFolderVideo = createVideoScrubber(folderVideo);
-const scrubAttentionVideo = createVideoScrubber(attentionVideo, 3);
+const scrubAttentionVideo = createVideoScrubber(attentionVideo);
 
 const sectionProgress = (section) => {
   if (!section) return 0;
@@ -106,7 +106,21 @@ const updateFolderStory = () => {
   if (!folderStory) return;
   const progress = sectionProgress(folderStory);
 
-  if (mobileLayout.matches) {
+  if (folderStory.classList.contains('hero-story')) {
+    scrubFolderVideo(progress);
+    const heroOpacity = map(progress, .16, .36, 1, 0);
+    heroCopy.style.opacity = heroOpacity;
+    heroCopy.style.transform = `translate3d(0, ${lerp(0, -24, 1 - heroOpacity).toFixed(1)}px, 0)`;
+
+    const finishOpacity = map(progress, .4, .58);
+    folderFinish.style.opacity = finishOpacity;
+    folderFinish.style.transform = `translate3d(0, ${lerp(28, 0, finishOpacity).toFixed(1)}px, 0)`;
+
+    const drift = progress * progress * (3 - 2 * progress);
+    const scale = lerp(1.015, 1.095, drift);
+    const shiftY = lerp(0, -12, drift);
+    folderMedia.style.transform = `translate3d(0, ${shiftY.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
+  } else if (mobileLayout.matches) {
     scrubFolderVideo(map(progress, .06, .8));
     const heroOpacity = map(progress, .08, .3, 1, 0);
     heroCopy.style.opacity = heroOpacity;
