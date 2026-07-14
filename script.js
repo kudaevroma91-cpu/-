@@ -12,7 +12,6 @@ const folderStory = document.querySelector('[data-folder-story]');
 const folderVideo = document.querySelector('[data-folder-video]');
 const folderMedia = document.querySelector('[data-folder-media]');
 const heroCopy = document.querySelector('[data-hero-copy]');
-const heroTools = document.querySelector('[data-hero-tools]');
 const folderFinish = document.querySelector('[data-folder-finish]');
 const folderProgress = document.querySelector('[data-folder-progress]');
 const scrollCue = document.querySelector('[data-scroll-cue]');
@@ -63,7 +62,18 @@ const createVideoScrubber = (video, maxDuration = Infinity) => {
 
   return (progress) => {
     if (!duration || reducedMotion) return;
-    targetTime = clamp(progress) * Math.max(0, duration - .035);
+    const normalizedProgress = clamp(progress);
+    targetTime = normalizedProgress * Math.max(0, duration - .035);
+
+    if (normalizedProgress <= .012) {
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+      targetTime = 0;
+      renderedTime = 0;
+      try { video.currentTime = 0; } catch (_) { /* The first frame will be applied after metadata loads */ }
+      return;
+    }
+
     if (!frame) frame = requestAnimationFrame(render);
   };
 };
@@ -94,13 +104,11 @@ const updateFolderStory = () => {
     const heroOpacity = map(progress, .62, .92, 1, 0);
     heroCopy.style.opacity = heroOpacity;
     heroCopy.style.transform = `translate3d(0, ${lerp(0, -26, 1 - heroOpacity).toFixed(1)}px, 0)`;
-    heroTools.style.opacity = heroOpacity;
   } else {
     scrubFolderVideo(progress);
     const heroOpacity = map(progress, .08, .34, 1, 0);
     heroCopy.style.opacity = heroOpacity;
     heroCopy.style.transform = `translate3d(0, ${lerp(0, -22, 1 - heroOpacity).toFixed(1)}px, 0)`;
-    heroTools.style.opacity = map(progress, .04, .22, 1, 0);
 
     const finishOpacity = map(progress, .65, .86);
     folderFinish.style.opacity = finishOpacity;
@@ -214,16 +222,4 @@ if (matchMedia('(pointer: fine)').matches && !reducedMotion) {
     element.addEventListener('mouseleave', () => cursor.classList.remove('is-active'));
   });
 
-  heroTools?.addEventListener('pointermove', (event) => {
-    const rect = heroTools.getBoundingClientRect();
-    const x = clamp((event.clientX - rect.left) / Math.max(1, rect.width));
-    const y = clamp((event.clientY - rect.top) / Math.max(1, rect.height));
-    heroTools.style.setProperty('--tilt-x', `${((.5 - y) * 5).toFixed(2)}deg`);
-    heroTools.style.setProperty('--tilt-y', `${((x - .5) * 7).toFixed(2)}deg`);
-  }, { passive: true });
-
-  heroTools?.addEventListener('pointerleave', () => {
-    heroTools.style.setProperty('--tilt-x', '0deg');
-    heroTools.style.setProperty('--tilt-y', '0deg');
-  });
 }
