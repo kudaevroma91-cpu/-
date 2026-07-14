@@ -1,0 +1,12 @@
+.git
+.codex-ssh
+.env*
+landing-preview*.png
+case-*.png
+motion-pages-green.png
+folder-logo.jpg
+folder-scroll.mp4
+sites-motion.mov
+sites-motion-fallback.mp4
+kling-*.png
+!kling-black-folder-start.png

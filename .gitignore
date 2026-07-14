@@ -10,3 +10,6 @@ kling-*.png
 case-prestige.png
 folder-logo.jpg
 
+
+.vercel
+.env*
