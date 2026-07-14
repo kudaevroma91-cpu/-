@@ -792,7 +792,7 @@ button:focus-visible {
   .header-link { display: none; }
 
   .folder-story {
-    height: 245dvh;
+    height: 180dvh;
     background: #fff;
   }
 
@@ -810,6 +810,7 @@ button:focus-visible {
     inset: clamp(278px, 36dvh, 340px) -18vw auto;
     height: min(42dvh, 360px);
     transform: scale(1);
+    transform-origin: left top;
   }
 
   .folder-video {
@@ -845,7 +846,7 @@ button:focus-visible {
 
   .folder-finish {
     display: block;
-    top: max(118px, calc(94px + env(safe-area-inset-top)));
+    top: max(270px, 34dvh);
     left: var(--pad);
     right: var(--pad);
   }
@@ -1000,10 +1001,11 @@ button:focus-visible {
     height: 290px;
   }
 
-  .hero-copy,
-  .folder-finish {
+  .hero-copy {
     top: max(102px, calc(82px + env(safe-area-inset-top)));
   }
+
+  .folder-finish { top: 270px; }
 
   .hero-copy h1 { font-size: clamp(47px, 13.8vw, 54px); }
 }

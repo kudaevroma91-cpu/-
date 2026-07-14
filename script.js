@@ -107,15 +107,26 @@ const updateFolderStory = () => {
   const progress = sectionProgress(folderStory);
 
   if (mobileLayout.matches) {
-    scrubFolderVideo(progress);
-    const heroOpacity = map(progress, .1, .32, 1, 0);
+    scrubFolderVideo(map(progress, .06, .8));
+    const heroOpacity = map(progress, .08, .3, 1, 0);
     heroCopy.style.opacity = heroOpacity;
     heroCopy.style.transform = `translate3d(0, ${lerp(0, -18, 1 - heroOpacity).toFixed(1)}px, 0)`;
 
-    const finishOpacity = map(progress, .64, .82);
+    const finishOpacity = map(progress, .48, .68);
     folderFinish.style.opacity = finishOpacity;
-    folderFinish.style.transform = `translate3d(0, ${lerp(24, 0, finishOpacity).toFixed(1)}px, 0)`;
-    folderMedia.style.transform = `scale(${lerp(1, 1.025, progress).toFixed(4)})`;
+    folderFinish.style.transform = `translate3d(0, ${lerp(18, 0, finishOpacity).toFixed(1)}px, 0)`;
+
+    if (innerWidth <= 700) {
+      const travel = map(progress, .04, .78);
+      const easedTravel = travel * travel * (3 - 2 * travel);
+      const shiftX = lerp(0, 30, easedTravel);
+      const endShiftY = 135 - folderMedia.offsetTop;
+      const shiftY = lerp(0, endShiftY, easedTravel);
+      const scale = lerp(1, .48, easedTravel);
+      folderMedia.style.transform = `translate3d(${shiftX.toFixed(1)}px, ${shiftY.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
+    } else {
+      folderMedia.style.transform = `scale(${lerp(1, 1.025, progress).toFixed(4)})`;
+    }
   } else {
     scrubFolderVideo(progress);
     const heroOpacity = map(progress, .08, .34, 1, 0);
