@@ -188,7 +188,7 @@ button:focus-visible {
 .folder-media {
   position: absolute;
   z-index: 1;
-  inset: 0;
+  inset: clamp(320px, 38vh, 370px) 0 0;
   opacity: 1;
   transform: scale(1.01);
   will-change: transform, opacity;
@@ -201,6 +201,8 @@ button:focus-visible {
   object-position: center bottom;
   background: #fff;
   filter: contrast(1.015) brightness(1.01);
+  transform-origin: center bottom;
+  will-change: transform;
 }
 
 .hero-copy {
@@ -208,8 +210,8 @@ button:focus-visible {
   z-index: 3;
   left: var(--pad);
   right: var(--pad);
-  top: clamp(172px, 21vh, 220px);
-  max-width: min(1180px, calc(100% - var(--pad) * 2));
+  top: clamp(136px, 16vh, 160px);
+  max-width: min(1040px, calc(100% - var(--pad) * 2));
   will-change: transform, opacity;
 }
 
@@ -224,19 +226,19 @@ button:focus-visible {
 }
 
 .hero-copy h1 {
-  max-width: 1180px;
+  max-width: 1040px;
   margin: 0;
   color: #000;
-  font-size: clamp(58px, 6.7vw, 112px);
-  line-height: .92;
-  letter-spacing: -.045em;
+  font-size: clamp(56px, 5.6vw, 102px);
+  line-height: .95;
+  letter-spacing: -.036em;
   font-weight: 500;
   text-wrap: balance;
 }
 
 .hero-copy h1 em {
   display: inline-block;
-  margin-left: .5em;
+  margin-left: .34em;
   font-size: .9em;
 }
 
@@ -882,6 +884,10 @@ button:focus-visible {
   84% { transform: rotate(180deg); }
 }
 
+@media (min-width: 901px) and (min-aspect-ratio: 3 / 2) {
+  .folder-video { transform: scale(1.42); }
+}
+
 @media (max-width: 900px) {
   :root { --pad: clamp(20px, 5vw, 42px); }
 
@@ -889,8 +895,8 @@ button:focus-visible {
   .folder-story { height: 280vh; }
   .folder-stage, .attention-stage { min-height: 560px; }
   .folder-video { object-fit: contain; }
-  .hero-copy { top: clamp(158px, 19vh, 196px); }
-  .hero-copy h1 { font-size: clamp(55px, 8.7vw, 94px); }
+  .hero-copy { top: clamp(132px, 16vh, 154px); }
+  .hero-copy h1 { font-size: clamp(52px, 8vw, 76px); }
   .story-progress { display: none; }
   .attention-copy h2 { font-size: clamp(54px, 9vw, 90px); }
   .approach-top, .services-head { grid-template-columns: 1fr; }
