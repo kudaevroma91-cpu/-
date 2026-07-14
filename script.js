@@ -1,244 +1,196 @@
 const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
-const lerp = (a, b, amount) => a + (b - a) * amount;
+const lerp = (from, to, amount) => from + (to - from) * amount;
 const map = (value, inMin, inMax, outMin = 0, outMax = 1) => {
-  const progress = clamp((value - inMin) / (inMax - inMin));
+  const progress = clamp((value - inMin) / Math.max(.0001, inMax - inMin));
   return lerp(outMin, outMax, progress);
 };
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const archive = document.querySelector('.archive');
-const video = document.querySelector('[data-folder-video]');
-const shell = document.querySelector('[data-video-shell]');
-const intro = document.querySelector('[data-intro]');
-const openCopy = document.querySelector('[data-open-copy]');
-const scrollHint = document.querySelector('[data-scroll-hint]');
-const meter = document.querySelector('[data-meter]');
+const mobileLayout = matchMedia('(max-width: 700px)');
 const header = document.querySelector('[data-header]');
+const folderStory = document.querySelector('[data-folder-story]');
+const folderVideo = document.querySelector('[data-folder-video]');
+const folderMedia = document.querySelector('[data-folder-media]');
+const heroCopy = document.querySelector('[data-hero-copy]');
+const folderFinish = document.querySelector('[data-folder-finish]');
+const folderProgress = document.querySelector('[data-folder-progress]');
+const scrollCue = document.querySelector('[data-scroll-cue]');
+const attentionStory = document.querySelector('[data-attention-story]');
+const attentionVideo = document.querySelector('[data-attention-video]');
+const attentionCopies = [...document.querySelectorAll('[data-attention-copy]')];
+const attentionProgress = document.querySelector('[data-attention-progress]');
 
-let duration = 0;
-let targetTime = 0;
-let renderedTime = 0;
-let archiveProgress = 0;
-let videoAnimationFrame = 0;
+const createVideoScrubber = (video, maxDuration = Infinity) => {
+  if (!video) return () => {};
 
-const renderVideoSmoothly = () => {
-  if (!duration || reducedMotion) {
-    videoAnimationFrame = 0;
-    return;
-  }
+  let duration = 0;
+  let targetTime = 0;
+  let renderedTime = 0;
+  let frame = 0;
 
-  const difference = targetTime - renderedTime;
-  renderedTime += difference * .14;
+  const render = () => {
+    if (!duration || reducedMotion) {
+      frame = 0;
+      return;
+    }
 
-  if (!video.seeking && Math.abs(video.currentTime - renderedTime) > .025) {
-    try { video.currentTime = renderedTime; } catch (_) { /* Metadata may still be settling. */ }
-  }
+    renderedTime += (targetTime - renderedTime) * .16;
 
-  if (Math.abs(difference) > .002 || video.seeking) {
-    videoAnimationFrame = requestAnimationFrame(renderVideoSmoothly);
+    if (!video.seeking && Math.abs(video.currentTime - renderedTime) > .028) {
+      try { video.currentTime = renderedTime; } catch (_) { /* Metadata may still be loading */ }
+    }
+
+    if (Math.abs(targetTime - renderedTime) > .002 || video.seeking) {
+      frame = requestAnimationFrame(render);
+    } else {
+      renderedTime = targetTime;
+      if (!video.seeking) video.currentTime = targetTime;
+      frame = 0;
+    }
+  };
+
+  const wake = () => {
+    duration = Number.isFinite(video.duration) ? Math.min(video.duration, maxDuration) : 0;
+    video.pause();
+    renderedTime = clamp(video.currentTime, 0, duration || 0);
+    if (reducedMotion && duration) video.currentTime = Math.min(duration, .05);
+  };
+
+  video.addEventListener('loadedmetadata', wake);
+  video.addEventListener('durationchange', wake);
+  video.load();
+
+  return (progress) => {
+    if (!duration || reducedMotion) return;
+    targetTime = clamp(progress) * Math.max(0, duration - .035);
+    if (!frame) frame = requestAnimationFrame(render);
+  };
+};
+
+const scrubFolderVideo = createVideoScrubber(folderVideo);
+const scrubAttentionVideo = createVideoScrubber(attentionVideo, 3);
+
+const sectionProgress = (section) => {
+  if (!section) return 0;
+  const rect = section.getBoundingClientRect();
+  const available = Math.max(1, section.offsetHeight - innerHeight);
+  return clamp(-rect.top / available);
+};
+
+const setAttentionCopy = (element, opacity) => {
+  if (!element) return;
+  const visible = clamp(opacity);
+  element.style.opacity = visible;
+  element.style.transform = `translate3d(0, ${lerp(34, 0, visible).toFixed(1)}px, 0)`;
+  element.classList.toggle('is-active', visible > .5);
+};
+
+const updateFolderStory = () => {
+  if (!folderStory) return;
+  const progress = sectionProgress(folderStory);
+
+  if (mobileLayout.matches) {
+    const heroOpacity = map(progress, .62, .92, 1, 0);
+    heroCopy.style.opacity = heroOpacity;
+    heroCopy.style.transform = `translate3d(0, ${lerp(0, -26, 1 - heroOpacity).toFixed(1)}px, 0)`;
   } else {
-    renderedTime = targetTime;
-    if (!video.seeking) video.currentTime = targetTime;
-    videoAnimationFrame = 0;
+    scrubFolderVideo(progress);
+    const heroOpacity = map(progress, .08, .34, 1, 0);
+    heroCopy.style.opacity = heroOpacity;
+    heroCopy.style.transform = `translate3d(0, ${lerp(0, -22, 1 - heroOpacity).toFixed(1)}px, 0)`;
+
+    const finishOpacity = map(progress, .65, .86);
+    folderFinish.style.opacity = finishOpacity;
+    folderFinish.style.transform = `translate3d(0, ${lerp(30, 0, finishOpacity).toFixed(1)}px, 0)`;
+    folderMedia.style.transform = `scale(${lerp(1.01, 1.025, progress).toFixed(4)})`;
   }
+
+  scrollCue.style.opacity = map(progress, .06, .26, 1, 0);
+  folderProgress.style.transform = `scaleY(${progress})`;
 };
 
-const requestVideoFrame = () => {
-  if (!videoAnimationFrame && duration && !reducedMotion) {
-    videoAnimationFrame = requestAnimationFrame(renderVideoSmoothly);
-  }
+const updateAttentionStory = () => {
+  if (!attentionStory) return;
+  const progress = sectionProgress(attentionStory);
+  scrubAttentionVideo(progress);
+
+  const first = 1 - map(progress, .22, .31);
+  const second = map(progress, .34, .42) * (1 - map(progress, .51, .59));
+  const third = map(progress, .64, .73);
+
+  setAttentionCopy(attentionCopies[0], first);
+  setAttentionCopy(attentionCopies[1], second);
+  setAttentionCopy(attentionCopies[2], third);
+  attentionProgress.style.transform = `scaleX(${progress})`;
 };
 
-const updateArchive = () => {
-  const rect = archive.getBoundingClientRect();
-  const available = Math.max(1, archive.offsetHeight - innerHeight);
-  archiveProgress = clamp(-rect.top / available);
-
-  targetTime = duration * archiveProgress;
-  requestVideoFrame();
-
-  const introOut = map(archiveProgress, .08, .38, 1, 0);
-  intro.style.opacity = introOut;
-  intro.style.transform = `translate3d(0, ${archiveProgress * -18}px, 0)`;
-
-  const openIn = map(archiveProgress, .68, .9);
-  openCopy.style.opacity = openIn;
-  openCopy.style.transform = `translateY(${lerp(30, 0, openIn)}px)`;
-
-  scrollHint.style.opacity = map(archiveProgress, .02, .18, 1, 0);
-  meter.style.transform = `scaleY(${archiveProgress})`;
-  header.classList.toggle('is-compact', scrollY > archive.offsetHeight - innerHeight * 1.1);
+const updateHeaderTone = () => {
+  const dark = [...document.querySelectorAll('.dark-section')].some((section) => {
+    const rect = section.getBoundingClientRect();
+    const probe = Math.min(90, innerHeight * .12);
+    return rect.top <= probe && rect.bottom > probe;
+  });
+  header?.classList.toggle('is-dark', dark);
 };
-
-const wakeVideo = () => {
-  duration = Number.isFinite(video.duration) ? video.duration : 0;
-  video.pause();
-  targetTime = duration * archiveProgress;
-  renderedTime = targetTime;
-  if (duration) video.currentTime = targetTime;
-  if (reducedMotion && duration) {
-    video.currentTime = duration;
-  } else {
-    updateArchive();
-  }
-};
-
-video.addEventListener('loadedmetadata', wakeVideo);
-video.addEventListener('durationchange', wakeVideo);
-video.addEventListener('canplay', () => document.body.classList.remove('is-loading'), { once: true });
-video.load();
 
 let ticking = false;
+const updatePage = () => {
+  ticking = false;
+  updateFolderStory();
+  updateAttentionStory();
+  updateHeaderTone();
+};
+
 const requestUpdate = () => {
   if (ticking) return;
   ticking = true;
-  requestAnimationFrame(() => {
-    updateArchive();
-    ticking = false;
-  });
+  requestAnimationFrame(updatePage);
 };
 
 addEventListener('scroll', requestUpdate, { passive: true });
 addEventListener('resize', requestUpdate);
-updateArchive();
+mobileLayout.addEventListener?.('change', requestUpdate);
+updatePage();
 
-const observer = new IntersectionObserver((entries) => {
+const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (!entry.isIntersecting) return;
     entry.target.classList.add('is-visible');
-    observer.unobserve(entry.target);
+    revealObserver.unobserve(entry.target);
   });
-}, { threshold: .13, rootMargin: '0px 0px -5% 0px' });
+}, { threshold: .12, rootMargin: '0px 0px -6% 0px' });
 
-document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
 
-const motionHeading = document.querySelector('[data-motion-heading]');
-if (motionHeading && !reducedMotion) {
-  let headingTicking = false;
-
-  const updateMotionHeading = () => {
-    headingTicking = false;
-    const rect = motionHeading.getBoundingClientRect();
-    const progress = clamp((innerHeight - rect.top) / (innerHeight + rect.height));
-    motionHeading.style.setProperty('--motion-image-y', `${lerp(28, -28, progress).toFixed(1)}px`);
-    motionHeading.style.setProperty('--motion-image-scale', lerp(1.08, 1.01, progress).toFixed(4));
-  };
-
-  const requestHeadingUpdate = () => {
-    if (headingTicking) return;
-    headingTicking = true;
-    requestAnimationFrame(updateMotionHeading);
-  };
-
-  addEventListener('scroll', requestHeadingUpdate, { passive: true });
-  addEventListener('resize', requestHeadingUpdate);
-  updateMotionHeading();
-}
-
-const motionDemo = document.querySelector('[data-motion-demo]');
-if (motionDemo) {
-  const motionStory = document.querySelector('[data-motion-story]');
-  const motionSteps = [...document.querySelectorAll('[data-motion-step]')];
-  const demoKicker = motionDemo.querySelector('[data-demo-kicker]');
-  const demoLineOne = motionDemo.querySelector('[data-demo-line-one]');
-  const demoLineTwo = motionDemo.querySelector('[data-demo-line-two]');
-  const demoButton = motionDemo.querySelector('[data-demo-button]');
-  let activeMotionStep = 0;
-  let motionTicking = false;
-  let motionSwapTimer = 0;
-
-  const motionObserver = new IntersectionObserver(([entry]) => {
-    motionDemo.classList.toggle('is-playing', entry.isIntersecting && !reducedMotion);
-  }, { threshold: .28 });
-  motionObserver.observe(motionDemo);
-
-  const activateMotionStep = (index) => {
-    if (index === activeMotionStep) return;
-    activeMotionStep = index;
-    motionSteps.forEach((step, stepIndex) => step.classList.toggle('is-active', stepIndex === index));
-    const step = motionSteps[index];
-    motionDemo.dataset.step = String(index);
-    motionDemo.classList.add('is-switching');
-    clearTimeout(motionSwapTimer);
-    motionSwapTimer = setTimeout(() => {
-      demoKicker.textContent = step.dataset.kicker;
-      demoLineOne.textContent = step.dataset.lineOne;
-      demoLineTwo.textContent = step.dataset.lineTwo;
-      demoButton.textContent = step.dataset.button;
-      motionDemo.classList.remove('is-switching');
-    }, reducedMotion ? 0 : 170);
-  };
-
-  const updateMotionStory = () => {
-    motionTicking = false;
-    if (!motionStory || innerWidth <= 900) return;
-
-    const storyRect = motionStory.getBoundingClientRect();
-    const available = Math.max(1, motionStory.offsetHeight - innerHeight);
-    const progress = clamp(-storyRect.top / available);
-    motionDemo.style.setProperty('--depth-scale', lerp(.92, 1.035, progress).toFixed(4));
-    motionDemo.style.setProperty('--depth-y', `${lerp(24, -10, progress).toFixed(1)}px`);
-
-    const anchor = innerHeight * .48;
-    let closestIndex = 0;
-    let closestDistance = Infinity;
-    motionSteps.forEach((step, index) => {
-      const rect = step.getBoundingClientRect();
-      const distance = Math.abs(rect.top + rect.height * .48 - anchor);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestIndex = index;
-      }
-    });
-    activateMotionStep(closestIndex);
-  };
-
-  const requestMotionUpdate = () => {
-    if (motionTicking) return;
-    motionTicking = true;
-    requestAnimationFrame(updateMotionStory);
-  };
-
-  addEventListener('scroll', requestMotionUpdate, { passive: true });
-  addEventListener('resize', requestMotionUpdate);
-  updateMotionStory();
-}
-
-document.querySelector('[data-to-top]').addEventListener('click', () => {
+document.querySelector('[data-to-top]')?.addEventListener('click', () => {
   scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
 });
 
 const cookieNotice = document.querySelector('[data-cookie-notice]');
 const cookieAccept = document.querySelector('[data-cookie-accept]');
-let cookieNoticeAccepted = false;
+let cookieAccepted = false;
 
 try {
-  cookieNoticeAccepted = localStorage.getItem('cookie-notice-accepted-v1') === 'yes';
-} catch (_) { /* The site still works when storage is disabled. */ }
+  cookieAccepted = localStorage.getItem('cookie-notice-accepted-v1') === 'yes';
+} catch (_) { /* The site still works when storage is disabled */ }
 
-if (cookieNotice && !cookieNoticeAccepted) {
+if (cookieNotice && !cookieAccepted) {
   cookieNotice.hidden = false;
   requestAnimationFrame(() => cookieNotice.classList.add('is-visible'));
 }
 
 cookieAccept?.addEventListener('click', () => {
   cookieNotice.classList.remove('is-visible');
-  try { localStorage.setItem('cookie-notice-accepted-v1', 'yes'); } catch (_) { /* Storage may be disabled. */ }
-  setTimeout(() => { cookieNotice.hidden = true; }, reducedMotion ? 0 : 350);
+  try { localStorage.setItem('cookie-notice-accepted-v1', 'yes'); } catch (_) { /* Storage may be disabled */ }
+  setTimeout(() => { cookieNotice.hidden = true; }, reducedMotion ? 0 : 300);
 });
 
-const contact = document.querySelector('.contact');
-const headerToneObserver = new IntersectionObserver(([entry]) => {
-  header.classList.toggle('is-dark', entry.isIntersecting && entry.intersectionRatio > .1 && false);
-}, { threshold: [0, .1, .5] });
-headerToneObserver.observe(contact);
-
-if (matchMedia('(pointer:fine)').matches && !reducedMotion) {
+if (matchMedia('(pointer: fine)').matches && !reducedMotion) {
   const cursor = document.querySelector('.cursor-dot');
-  let pointerX = -50;
-  let pointerY = -50;
-  let cursorX = -50;
-  let cursorY = -50;
+  let pointerX = -80;
+  let pointerY = -80;
+  let cursorX = -80;
+  let cursorY = -80;
 
   addEventListener('pointermove', (event) => {
     pointerX = event.clientX;
@@ -251,6 +203,7 @@ if (matchMedia('(pointer:fine)').matches && !reducedMotion) {
     cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
     requestAnimationFrame(moveCursor);
   };
+
   moveCursor();
 
   document.querySelectorAll('a, button').forEach((element) => {

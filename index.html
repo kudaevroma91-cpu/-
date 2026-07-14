@@ -3,32 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Создание лендингов и сайтов под ключ с продуманной структурой, визуальной системой и анимацией.">
+  <meta name="description" content="Лендинги и сайты под ключ с сильной структурой, выразительным визуалом и анимацией">
   <meta name="theme-color" content="#ffffff">
-  <title>Папка для сайтов — лендинги и сайты под ключ</title>
+  <title>Папка для сайтов, которые продают</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <a class="skip-link" href="#main">Перейти к содержанию</a>
   <div class="grain" aria-hidden="true"></div>
   <div class="cursor-dot" aria-hidden="true"></div>
 
   <header class="site-header" data-header>
-    <a class="brand" href="#top" aria-label="Папка для сайтов — наверх">
+    <a class="brand" href="#top" aria-label="Папка для сайтов, наверх">
       <img class="brand-logo" src="logo-folder.jpg" alt="">
       <span>Папка<br>для сайтов</span>
     </a>
+    <a class="header-link" href="#contact">Обсудить сайт <span aria-hidden="true">↘</span></a>
   </header>
 
-  <main id="top">
-    <section class="archive" id="archive" aria-label="Анимированная папка с проектами">
-      <div class="archive-stage">
-        <div class="stage-grid" aria-hidden="true"></div>
+  <main id="main">
+    <section class="folder-story" id="top" aria-label="Папка для сайтов, которые продают" data-folder-story>
+      <div class="folder-stage">
+        <div class="folder-grid" aria-hidden="true"></div>
 
-        <div class="archive-intro" data-intro>
-          <h1>Папка для сайтов,<br>которые продают</h1>
-        </div>
-
-        <div class="video-shell" data-video-shell>
+        <div class="folder-media" data-folder-media>
           <video
             class="folder-video"
             data-folder-video
@@ -37,147 +35,129 @@
             muted
             playsinline
             preload="auto"
-            aria-label="Чёрная папка раскрывается, показывая проекты"
+            aria-label="Чёрная папка раскрывается при прокрутке"
           ></video>
-          <div class="video-glow" aria-hidden="true"></div>
         </div>
 
-        <div class="archive-open" data-open-copy>
-          <span class="open-index">Идеи внутри</span>
-          <p>Папка открыта</p>
-          <a href="#works">Смотреть работы <span>↓</span></a>
+        <div class="hero-copy" data-hero-copy>
+          <p class="section-code">001 / Первый экран</p>
+          <h1>Папка для сайтов,<br><em>которые продают</em></h1>
         </div>
 
-        <div class="scroll-hint" data-scroll-hint>
-          <span>Scroll</span>
+        <div class="folder-finish" data-folder-finish>
+          <p>Идеи внутри</p>
+          <strong>Папка открыта</strong>
+          <a href="#attention">Смотреть дальше <span aria-hidden="true">↓</span></a>
         </div>
 
-        <div class="scroll-meter" aria-hidden="true">
+        <div class="scroll-cue" data-scroll-cue aria-hidden="true">
+          <span>Листайте</span>
+          <i></i>
+        </div>
+
+        <div class="story-progress" aria-hidden="true">
           <span>01</span>
-          <div><i data-meter></i></div>
+          <i><b data-folder-progress></b></i>
           <span>02</span>
         </div>
       </div>
     </section>
 
-    <section class="works" id="works">
-      <div class="motion-heading wrap reveal" data-motion-heading>
-        <img class="motion-heading-image" src="motion-pages-green.png" alt="Примеры экранов сайтов в зелёной визуальной системе">
-        <div class="motion-heading-shade" aria-hidden="true"></div>
-        <div class="motion-heading-copy">
-          <span>01 / Движение</span>
-          <h2>Анимация<br><em>останавливает скролл</em></h2>
-          <p>Один точный визуальный приём направляет внимание клиента к главному</p>
-        </div>
-      </div>
+    <section class="attention-story dark-section" id="attention" data-attention-story>
+      <div class="attention-stage">
+        <video class="attention-video" data-attention-video muted playsinline preload="metadata" aria-label="Чёрно-белые страницы сайтов движутся в пространстве">
+          <source src="sites-motion.mov" type="video/quicktime">
+          <source src="sites-motion-fallback.mp4" type="video/mp4">
+        </video>
+        <div class="attention-vignette" aria-hidden="true"></div>
+        <div class="attention-lines" aria-hidden="true"></div>
 
-      <div class="motion-story wrap" data-motion-story>
-        <div class="motion-steps">
-          <article class="motion-step is-active" data-motion-step data-kicker="Один экран / одна идея" data-line-one="Ваш продукт" data-line-two="Его заметили" data-button="Смотреть дальше">
-            <span>Вопрос / 01</span>
-            <h3>Как думаете,<br>такая анимация<br><em>цепляет клиента?</em></h3>
-            <p>Конечно, цепляет. Движение останавливает взгляд и даёт человеку причину не закрывать страницу.</p>
-          </article>
-          <article class="motion-step" data-motion-step data-kicker="Первый контакт / 0,3 секунды" data-line-one="Остановить" data-line-two="Не перегрузить" data-button="Показать главное">
-            <span>Внимание / 02</span>
-            <h3>Сначала —<br><em>остановить</em></h3>
-            <p>Не кричать всеми элементами сразу, а одним точным движением показать, куда смотреть и что здесь важно.</p>
-          </article>
-          <article class="motion-step" data-motion-step data-kicker="Путь клиента / глубже" data-line-one="Вовлечь" data-line-two="Дать почувствовать" data-button="Хочу так же">
-            <span>Интерес / 03</span>
-            <h3>Затем —<br><em>провести глубже</em></h3>
-            <p>Каждый следующий скролл раскрывает новую мысль. Человек не читает длинный рассказ — он проживает его.</p>
-          </article>
-          <article class="motion-step" data-motion-step data-kicker="Финальный шаг / действие" data-line-one="Интерес есть" data-line-two="Пора обсудить" data-button="Оставить заявку">
-            <span>Действие / 04</span>
-            <h3>И только потом —<br><em>к заявке</em></h3>
-            <p>Когда ценность уже понятна, предложение связаться воспринимается не как реклама, а как естественный следующий шаг.</p>
-            <a href="#contact">Перейти к заявке <span>↓</span></a>
-          </article>
+        <div class="attention-copy is-active" data-attention-copy>
+          <span>Внимание / 01</span>
+          <h2>Сильный экран уже<br><em>забирает внимание клиента</em></h2>
         </div>
 
-        <div class="motion-visual">
-          <div class="motion-demo reveal" data-motion-demo data-step="0" aria-label="Пример анимации интерфейса сайта">
-          <div class="demo-browser">
-            <div class="demo-bar">
-              <span></span><span></span><span></span>
-              <i>your-site.ru</i>
-            </div>
-            <div class="demo-canvas">
-              <span class="demo-kicker" data-demo-kicker>Один экран / одна идея</span>
-              <p class="demo-headline"><span data-demo-line-one>Ваш продукт</span><br><em data-demo-line-two>Его заметили</em></p>
-              <button type="button" tabindex="-1"><span data-demo-button>Смотреть дальше</span><i>↗</i></button>
-              <div class="demo-orbit orbit-one" aria-hidden="true"></div>
-              <div class="demo-orbit orbit-two" aria-hidden="true"></div>
-              <div class="demo-card card-one" aria-hidden="true"><span>01</span><b>Внимание</b></div>
-              <div class="demo-card card-two" aria-hidden="true"><span>02</span><b>Интерес</b></div>
-              <div class="demo-cursor" aria-hidden="true">↖</div>
-            </div>
-          </div>
-          <p class="motion-caption"><span>Движение включается, когда блок появляется на экране</span><b>Смотрите внимательно</b></p>
-          </div>
+        <div class="attention-copy" data-attention-copy>
+          <span>Интерес / 02</span>
+          <h2>До того как он<br><em>начал читать</em></h2>
         </div>
+
+        <div class="attention-copy attention-copy-final" data-attention-copy>
+          <span>Решение / 03</span>
+          <h2>Сайт либо цепляет<br><em>либо его закрывают</em></h2>
+          <a href="#contact">Хочу сайт, который цепляет <span aria-hidden="true">↘</span></a>
+        </div>
+
+        <div class="attention-progress" aria-hidden="true"><i data-attention-progress></i></div>
       </div>
     </section>
 
-    <section class="manifesto" id="about">
+    <section class="approach" id="approach">
       <div class="wrap">
-        <div class="manifesto-label reveal">02 / Подход</div>
-        <p class="manifesto-copy reveal">
-          Не просто экран<br>
-          <em>История, которая ведёт к заявке</em>
-        </p>
+        <div class="approach-top reveal">
+          <span>002 / Подход</span>
+          <p>От первого экрана<br>до нужного действия</p>
+        </div>
 
-        <div class="about-grid">
-          <div class="about-lead reveal">
-            <span>Что внутри</span>
-            <p>Структура, визуальная система, анимация и разработка — в одном процессе.</p>
-          </div>
-          <div class="service-list">
-            <article class="service reveal">
-              <span>01</span>
-              <h3>Лендинг</h3>
-              <p>Сильный одностраничный сайт для продукта, услуги или личного бренда.</p>
-            </article>
-            <article class="service reveal">
-              <span>02</span>
-              <h3>Сайт под ключ</h3>
-              <p>От структуры и дизайна до адаптивной разработки и запуска.</p>
-            </article>
-            <article class="service reveal">
-              <span>03</span>
-              <h3>Редизайн</h3>
-              <p>Обновление структуры, визуала и анимации для уже существующего сайта.</p>
-            </article>
-          </div>
+        <h2 class="approach-title reveal">Каждый скролл ведёт<br><em>к следующему шагу</em></h2>
+
+        <div class="process-line reveal" aria-label="Этапы работы">
+          <span>Структура</span>
+          <i></i>
+          <span>Визуальная система</span>
+          <i></i>
+          <span>Анимация</span>
+          <i></i>
+          <span>Разработка</span>
         </div>
       </div>
     </section>
 
-    <section class="contact" id="contact">
+    <section class="services" id="services">
+      <div class="wrap">
+        <div class="services-head reveal">
+          <span>003 / Что можно сделать</span>
+          <h2>Сайт под вашу задачу</h2>
+        </div>
+
+        <div class="service-list">
+          <article class="service reveal">
+            <span>01</span>
+            <h3>Лендинг</h3>
+            <p>Для продукта, услуги или личного бренда</p>
+          </article>
+          <article class="service reveal">
+            <span>02</span>
+            <h3>Сайт под ключ</h3>
+            <p>Структура, дизайн, разработка и запуск</p>
+          </article>
+          <article class="service reveal">
+            <span>03</span>
+            <h3>Анимация сайта</h3>
+            <p>Движение, которое ведёт к действию</p>
+          </article>
+        </div>
+
+        <p class="fomo-line reveal">Пока сайт ждёт обновления<br><em>клиент уже выбирает другой</em></p>
+      </div>
+    </section>
+
+    <section class="contact dark-section" id="contact">
       <div class="contact-orbit" aria-hidden="true"></div>
       <div class="wrap contact-inner">
-        <p class="eyebrow reveal"><span></span> Свободен для новых проектов</p>
-        <h2 class="reveal">Есть идея<br><em>давайте обсудим</em></h2>
+        <p class="contact-label reveal"><span></span> Свободен для новых проектов</p>
+        <h2 class="reveal">Ваш сайт могут запомнить<br><em>уже после первого экрана</em></h2>
 
         <div class="contact-panel reveal">
           <div class="contact-copy">
             <span>Прямая связь</span>
-            <p>Напишите, что нужно сделать — отвечу лично и предложу следующий шаг</p>
-            <a class="telegram-app-link" href="tg://resolve?domain=kudaevgram">Открыть сразу в приложении ↗</a>
+            <p>Напишите пару слов о проекте<br>Я отвечу лично</p>
           </div>
-          <div class="contact-action-stack">
-            <div class="brief-prompts" aria-label="Что написать в сообщении">
-              <span><i></i>Задача</span>
-              <span><i></i>Срок</span>
-              <span><i></i>Бюджет</span>
-            </div>
-            <a class="telegram-cta" href="https://telegram.me/kudaevgram" target="_blank" rel="noopener noreferrer">
-              <strong>Написать в Telegram</strong>
-              <span>@kudaevgram</span>
-              <i aria-hidden="true">↗</i>
-            </a>
-          </div>
+          <a class="telegram-cta" href="https://telegram.me/kudaevgram" target="_blank" rel="noopener noreferrer">
+            <strong>Написать в Telegram</strong>
+            <span>@kudaevgram</span>
+            <i aria-hidden="true">↗</i>
+          </a>
         </div>
 
         <div class="operator-note reveal">
@@ -198,8 +178,8 @@
     </section>
   </main>
 
-  <aside class="cookie-notice" data-cookie-notice hidden aria-label="Уведомление о файлах cookies">
-    <p>На сайте только технический cookie. <a href="cookies.html">Подробнее</a></p>
+  <aside class="cookie-notice" data-cookie-notice hidden aria-label="Уведомление о cookies">
+    <p>На сайте только технический cookie <a href="cookies.html">Подробнее</a></p>
     <button type="button" data-cookie-accept>Понятно</button>
   </aside>
 
