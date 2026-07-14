@@ -112,6 +112,14 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
 
+const motionDemo = document.querySelector('[data-motion-demo]');
+if (motionDemo) {
+  const motionObserver = new IntersectionObserver(([entry]) => {
+    motionDemo.classList.toggle('is-playing', entry.isIntersecting && !reducedMotion);
+  }, { threshold: .28 });
+  motionObserver.observe(motionDemo);
+}
+
 document.querySelector('[data-to-top]').addEventListener('click', () => {
   scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
 });
