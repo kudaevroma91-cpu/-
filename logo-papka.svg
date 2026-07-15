@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48" role="img" aria-labelledby="title desc">
   <title id="title">Papka Technology</title>
-  <desc id="desc">Minimal black folder with a white letter P</desc>
+  <desc id="desc">Minimal black folder</desc>
   <path fill="#080808" d="M5 10a6 6 0 0 1 6-6h13.2c2.1 0 4.1 1 5.3 2.7l2.8 3.8H53a6 6 0 0 1 6 6V38a6 6 0 0 1-6 6H11a6 6 0 0 1-6-6V10Z"/>
-  <path fill="#fff" d="M24 15h10.2C41 15 45 18.4 45 24s-4 9-10.8 9H30v6h-6V15Zm6 5.3v7.4h4c3.1 0 4.8-1.3 4.8-3.7 0-2.4-1.7-3.7-4.8-3.7h-4Z"/>
 </svg>
