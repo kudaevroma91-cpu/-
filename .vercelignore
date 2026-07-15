@@ -10,3 +10,10 @@ sites-motion.mov
 sites-motion-fallback.mp4
 kling-*.png
 !kling-black-folder-start.png
+hero-motion-*
+sites-motion-web.mp4
+kling-black-folder-start.png
+logo-folder.jpg
+site-*.png
+security_best_practices_report.md
+launch-readiness.md

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 48" role="img" aria-labelledby="title desc">
+  <title id="title">Папка</title>
+  <desc id="desc">Чёрная папка с белой рубашкой и галстуком</desc>
+  <path fill="#080808" d="M4 9.5A5.5 5.5 0 0 1 9.5 4h17.8c2 0 3.9.9 5.1 2.5l3.2 4H62A6 6 0 0 1 68 16v24a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9.5Z"/>
+  <path fill="#191919" stroke="#4a4a4a" stroke-width="1" d="M5 17.5h62v22.3a4.2 4.2 0 0 1-4.2 4.2H9.2A4.2 4.2 0 0 1 5 39.8V17.5Z"/>
+  <path fill="#f7f7f5" d="m26.5 18 9.5 14 9.5-14H26.5Z"/>
+  <path fill="#080808" d="m34 20 2-2 2 2-1 4.4L40 36l-4 5-4-5 3-11.6L34 20Z"/>
+  <path fill="#101010" d="M18 18h9.2L36 33 25 25l-6 8-6-5.5L18 18Zm36 0h-9.2L36 33l11-8 6 8 6-5.5L54 18Z"/>
+  <path fill="none" stroke="#717171" stroke-width="1" d="M10 40h16m20 0h16"/>
+</svg>
