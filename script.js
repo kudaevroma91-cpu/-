@@ -99,13 +99,20 @@ const setAttentionCopy = (element, opacity) => {
   if (!element) return;
   const visible = clamp(opacity);
   element.style.opacity = visible;
-  element.style.transform = `translate3d(0, ${lerp(34, 0, visible).toFixed(1)}px, 0)`;
+  element.style.transform = `translate3d(0, ${lerp(28, 0, visible).toFixed(1)}px, 0)`;
   element.classList.toggle('is-active', visible > .5);
 };
 
-const updateAttentionStory = () => {
-  if (!attentionStory) return;
-  const progress = sectionProgress(attentionStory);
+let attentionTargetProgress = 0;
+let attentionRenderedProgress = 0;
+let attentionMotionFrame = 0;
+
+const renderAttentionStory = () => {
+  const distance = attentionTargetProgress - attentionRenderedProgress;
+  attentionRenderedProgress += distance * .12;
+
+  if (Math.abs(distance) < .0005) attentionRenderedProgress = attentionTargetProgress;
+  const progress = attentionRenderedProgress;
   scrubAttentionVideo(progress);
 
   const first = 1 - map(progress, .22, .31);
@@ -116,6 +123,25 @@ const updateAttentionStory = () => {
   setAttentionCopy(attentionCopies[1], second);
   setAttentionCopy(attentionCopies[2], third);
   attentionProgress.style.transform = `scaleX(${progress})`;
+
+  if (attentionRenderedProgress !== attentionTargetProgress) {
+    attentionMotionFrame = requestAnimationFrame(renderAttentionStory);
+  } else {
+    attentionMotionFrame = 0;
+  }
+};
+
+const updateAttentionStory = () => {
+  if (!attentionStory) return;
+  attentionTargetProgress = sectionProgress(attentionStory);
+
+  if (reducedMotion) {
+    attentionRenderedProgress = attentionTargetProgress;
+    renderAttentionStory();
+    return;
+  }
+
+  if (!attentionMotionFrame) attentionMotionFrame = requestAnimationFrame(renderAttentionStory);
 };
 
 const updateManifestoStory = () => {
