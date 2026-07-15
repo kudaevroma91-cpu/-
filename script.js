@@ -15,6 +15,7 @@ const manifesto = document.querySelector('[data-manifesto]');
 const manifestoScenes = [...document.querySelectorAll('[data-manifesto-scene]')];
 const manifestoProgress = document.querySelector('[data-manifesto-progress]');
 const manifestoCounter = document.querySelector('[data-manifesto-counter]');
+const manifestoOrbit = document.querySelector('.manifesto-orbit');
 
 const createVideoScrubber = (video, maxDuration = Infinity) => {
   if (!video) return () => {};
@@ -138,18 +139,25 @@ const updateManifestoStory = () => {
     const delta = index - position;
     const distance = Math.abs(delta);
     const isCurrent = index === activeIndex;
-    const opacity = isCurrent ? 1 - map(distance, .34, .68) : 0;
-    const shift = delta >= 0 ? 54 * clamp(distance) : -38 * clamp(distance);
-    const scale = lerp(.985, 1, opacity);
+    const opacity = isCurrent ? 1 - map(distance, .38, .72) : 0;
+    const travel = clamp(distance, 0, .5);
+    const entersFromRight = scene.classList.contains('scene-top-right') || scene.classList.contains('scene-bottom-right');
+    const shiftX = (entersFromRight ? -28 : 28) * travel;
+    const shiftY = (delta >= 0 ? 64 : -42) * travel;
+    const scale = lerp(.978, 1, opacity);
 
     scene.style.opacity = opacity.toFixed(3);
-    scene.style.transform = `translate3d(0, ${shift.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
+    scene.style.transform = `translate3d(${shiftX.toFixed(1)}px, ${shiftY.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
     scene.classList.toggle('is-active', isCurrent);
     scene.setAttribute('aria-hidden', isCurrent ? 'false' : 'true');
   });
 
   if (manifestoProgress) manifestoProgress.style.transform = `scaleY(${progress})`;
   if (manifestoCounter) manifestoCounter.textContent = String(activeIndex + 1).padStart(2, '0');
+  if (manifestoOrbit) {
+    const orbitScale = 1 + Math.sin(progress * Math.PI) * .055;
+    manifestoOrbit.style.transform = `translate(-50%, -50%) rotate(${(progress * 24).toFixed(2)}deg) scale(${orbitScale.toFixed(4)})`;
+  }
 };
 
 const updateHeaderTone = () => {

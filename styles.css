@@ -474,7 +474,7 @@ button:focus-visible {
 
 .manifesto {
   position: relative;
-  height: 620vh;
+  height: 430vh;
   background: #fff;
 }
 
@@ -555,10 +555,10 @@ button:focus-visible {
   color: #747470;
 }
 
-.scene-top-left { top: clamp(130px, 17vh, 180px); left: 0; }
-.scene-top-right { top: clamp(138px, 18vh, 190px); right: clamp(54px, 5vw, 80px); text-align: right; }
-.scene-bottom-left { bottom: clamp(90px, 12vh, 135px); left: 0; }
-.scene-bottom-right { right: clamp(54px, 5vw, 80px); bottom: clamp(90px, 12vh, 135px); text-align: right; }
+.scene-top-left { top: clamp(138px, 18vh, 190px); left: clamp(18px, 2.8vw, 44px); }
+.scene-top-right { top: clamp(146px, 19vh, 200px); right: clamp(92px, 7vw, 120px); text-align: right; }
+.scene-bottom-left { bottom: clamp(104px, 14vh, 148px); left: clamp(18px, 2.8vw, 44px); }
+.scene-bottom-right { right: clamp(92px, 7vw, 120px); bottom: clamp(104px, 14vh, 148px); text-align: right; }
 .scene-inset { width: min(980px, 72vw); }
 
 .manifesto-meta {
@@ -1018,7 +1018,7 @@ button:focus-visible {
     bottom: calc(82px + env(safe-area-inset-bottom));
   }
 
-  .manifesto { height: 560dvh; }
+  .manifesto { height: 400dvh; }
   .manifesto-stage { height: 100dvh; min-height: 540px; }
   .manifesto-grid { opacity: .28; }
   .manifesto-orbit { width: 120vw; }
