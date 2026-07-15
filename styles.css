@@ -156,30 +156,31 @@ button:focus-visible {
 }
 
 .brand-logo {
-  width: 50px;
-  height: 38px;
+  width: 44px;
+  height: 34px;
   object-fit: contain;
   flex: 0 0 auto;
 }
 
 .brand-wordmark {
   display: grid;
-  gap: 3px;
+  gap: 4px;
   text-transform: uppercase;
 }
 
 .brand-wordmark strong {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 600;
-  line-height: .78;
-  letter-spacing: -.055em;
+  line-height: .8;
+  letter-spacing: .015em;
 }
 
 .brand-wordmark small {
   color: var(--muted);
-  font-size: 7px;
+  font-size: 7.5px;
+  font-weight: 500;
   line-height: 1;
-  letter-spacing: .12em;
+  letter-spacing: .16em;
 }
 
 .site-header.is-dark .brand-wordmark small { color: rgba(255, 255, 255, .58); }
@@ -787,10 +788,10 @@ button:focus-visible {
   }
 
   .brand { gap: 9px; }
-  .brand-logo { width: 46px; height: 34px; }
+  .brand-logo { width: 40px; height: 30px; }
   .brand-wordmark { display: grid; }
-  .brand-wordmark strong { font-size: 15px; }
-  .brand-wordmark small { display: none; }
+  .brand-wordmark strong { font-size: 14px; }
+  .brand-wordmark small { display: block; font-size: 6.5px; letter-spacing: .14em; }
   .header-link { display: inline-flex; font-size: 11px; }
 
   .folder-story {
