@@ -1011,6 +1011,14 @@ button:focus-visible {
 
   .attention-copy :is(h1, h2) br { display: none; }
   .attention-copy :is(h1, h2) em { display: block; margin-top: .1em; }
+  .folder-showcase .attention-copy-final {
+    left: 32px;
+    right: 24px;
+  }
+  .folder-showcase .attention-copy-final h2 em {
+    padding-left: .08em;
+    padding-right: .04em;
+  }
   .attention-copy a { margin-top: 24px; font-size: 13px; }
   .attention-progress {
     left: 24px;
