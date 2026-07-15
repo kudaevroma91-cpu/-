@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#ffffff">
   <title>Папка для сайтов, которые продают</title>
   <link rel="icon" href="logo-papka.svg?v=3" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=20260715-8">
+  <link rel="stylesheet" href="styles.css?v=20260715-9">
 </head>
 <body>
   <a class="skip-link" href="#main">Перейти к содержанию</a>
@@ -52,15 +52,48 @@
       </div>
     </section>
 
-    <section class="approach" id="approach">
-      <div class="wrap">
-        <div class="approach-top reveal">
+    <section class="manifesto" id="approach" aria-label="Как мы создаём сайты, которые продают" data-manifesto>
+      <div class="manifesto-stage">
+        <div class="manifesto-grid" aria-hidden="true"></div>
+        <div class="manifesto-orbit" aria-hidden="true"></div>
+
+        <div class="manifesto-meta" aria-hidden="true">
           <span>002 / Подход</span>
-          <p>От первого экрана<br>до нужного действия</p>
+          <div class="manifesto-track"><i data-manifesto-progress></i></div>
+          <b data-manifesto-counter>01</b><small>06</small>
         </div>
 
-        <h2 class="approach-title reveal">Каждый скролл ведёт<br><em>к следующему шагу</em></h2>
+        <div class="manifesto-canvas">
+          <article class="manifesto-scene scene-top-left is-active" data-manifesto-scene>
+            <span>Понимание / 01</span>
+            <h2>Мы понимаем<br><em>какие сайты продают</em></h2>
+          </article>
 
+          <article class="manifesto-scene scene-bottom-right" data-manifesto-scene aria-hidden="true">
+            <span>Мера / 02</span>
+            <p>Больше дизайна<br><em>не значит больше смысла</em></p>
+          </article>
+
+          <article class="manifesto-scene scene-top-right" data-manifesto-scene aria-hidden="true">
+            <span>Фокус / 03</span>
+            <p>Шум не удерживает<br><em>он мешает выбрать</em></p>
+          </article>
+
+          <article class="manifesto-scene scene-bottom-left" data-manifesto-scene aria-hidden="true">
+            <span>Ценность / 04</span>
+            <p>Сильный экран<br><em>сразу объясняет ценность</em></p>
+          </article>
+
+          <article class="manifesto-scene scene-top-left scene-inset" data-manifesto-scene aria-hidden="true">
+            <span>Движение / 05</span>
+            <p>Анимация ведёт<br><em>а не отвлекает</em></p>
+          </article>
+
+          <article class="manifesto-scene scene-bottom-right scene-inset" data-manifesto-scene aria-hidden="true">
+            <span>Результат / 06</span>
+            <p>Каждый блок ведёт<br><em>к нужному действию</em></p>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -129,6 +162,6 @@
     <button type="button" data-cookie-accept>Понятно</button>
   </aside>
 
-  <script src="script.js?v=20260715-2"></script>
+  <script src="script.js?v=20260715-3"></script>
 </body>
 </html>

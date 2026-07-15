@@ -11,6 +11,10 @@ const attentionStory = document.querySelector('[data-attention-story]');
 const attentionVideo = document.querySelector('[data-attention-video]');
 const attentionCopies = [...document.querySelectorAll('[data-attention-copy]')];
 const attentionProgress = document.querySelector('[data-attention-progress]');
+const manifesto = document.querySelector('[data-manifesto]');
+const manifestoScenes = [...document.querySelectorAll('[data-manifesto-scene]')];
+const manifestoProgress = document.querySelector('[data-manifesto-progress]');
+const manifestoCounter = document.querySelector('[data-manifesto-counter]');
 
 const createVideoScrubber = (video, maxDuration = Infinity) => {
   if (!video) return () => {};
@@ -113,6 +117,41 @@ const updateAttentionStory = () => {
   attentionProgress.style.transform = `scaleX(${progress})`;
 };
 
+const updateManifestoStory = () => {
+  if (!manifesto || !manifestoScenes.length) return;
+
+  if (reducedMotion) {
+    manifestoScenes.forEach((scene) => {
+      scene.style.opacity = 1;
+      scene.style.transform = 'none';
+      scene.classList.add('is-active');
+      scene.setAttribute('aria-hidden', 'false');
+    });
+    return;
+  }
+
+  const progress = sectionProgress(manifesto);
+  const position = progress * (manifestoScenes.length - 1);
+  const activeIndex = Math.round(position);
+
+  manifestoScenes.forEach((scene, index) => {
+    const delta = index - position;
+    const distance = Math.abs(delta);
+    const isCurrent = index === activeIndex;
+    const opacity = isCurrent ? 1 - map(distance, .34, .68) : 0;
+    const shift = delta >= 0 ? 54 * clamp(distance) : -38 * clamp(distance);
+    const scale = lerp(.985, 1, opacity);
+
+    scene.style.opacity = opacity.toFixed(3);
+    scene.style.transform = `translate3d(0, ${shift.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
+    scene.classList.toggle('is-active', isCurrent);
+    scene.setAttribute('aria-hidden', isCurrent ? 'false' : 'true');
+  });
+
+  if (manifestoProgress) manifestoProgress.style.transform = `scaleY(${progress})`;
+  if (manifestoCounter) manifestoCounter.textContent = String(activeIndex + 1).padStart(2, '0');
+};
+
 const updateHeaderTone = () => {
   const dark = [...document.querySelectorAll('.dark-section')].some((section) => {
     const rect = section.getBoundingClientRect();
@@ -126,6 +165,7 @@ let ticking = false;
 const updatePage = () => {
   ticking = false;
   updateAttentionStory();
+  updateManifestoStory();
   updateHeaderTone();
 };
 
